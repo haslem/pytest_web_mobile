@@ -1,0 +1,12 @@
+{
+  "platformName": "Android",
+  "deviceName": "Android",
+  "udid": "7e25bb67d740",
+  "appPackage": "cz.seznam.mapy",
+  "appWaitActivity": "cz.seznam.mapy.MapActivity",
+  "app": "C:\\my\\auto\\mobile\\Mapy_v6.10.0_apkpure.apk",
+  "autoGrantPermissions": "true",
+  "unicodeKeyboard": "true",
+  "resetKeyboard" : "true",
+  "noReset": "true"
+}
