@@ -1,5 +1,3 @@
-import json
-import pytest
 from appium import webdriver
 
 from screens.main_screen import MainScreen
@@ -17,8 +15,10 @@ from pages.search_page import SearchPage
 from pages.my_maps_page import MyMapsPage
 from pages.login_page import LoginPage
 from pages.save_page import SavePage
+from pages.planning_page import PlanningPage
 
 from selenium.webdriver.common.by import By
+from functions.functions import delete_poi, delete_folder, login, search_element
 
 
 @pytest.fixture(scope='session')
@@ -147,12 +147,7 @@ def browser(config):
 
 
 def test_folder_sync(browser, mobile):
-    my_maps = FirstPage(browser)
-    my_maps.load()
-    my_maps.my_maps()
-
-    login = LoginPage(browser)
-    login.sign_in()
+    login(browser)
 
     my_maps = FirstPage(browser)
     my_maps.load()
@@ -190,28 +185,24 @@ def test_folder_sync(browser, mobile):
         '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.TextView')
     assert elem.get_attribute('text') == 'Changed names'
 
-    # delete folder on web
-    elem = browser.find_element_by_xpath(
-        '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[1]/li/div/div[2]/span[2]').click()
-    elem = browser.find_element_by_xpath(
-        '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[1]/li/div/div[2]/ul/li[4]').click()
+    #delete
+    delete_folder(browser)
 
-    elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/button[1]').click()
+    # # delete folder on web
+    # elem = browser.find_element_by_xpath(
+    #     '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[1]/li/div/div[2]/span[2]').click()
+    # elem = browser.find_element_by_xpath(
+    #     '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[1]/li/div/div[2]/ul/li[4]').click()
+    #
+    # elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/button[1]').click()
 
 
 def test_poi_changed_name(browser, mobile):
-    my_maps = FirstPage(browser)
-    my_maps.load()
-    my_maps.my_maps()
-
-    login = LoginPage(browser)
-    login.sign_in()
+    login(browser)
 
     SEARCH: str = 'Rudolfinum'
 
-    search = FirstPage(browser)
-    search.load()
-    search.search(SEARCH)
+    search_element(browser, SEARCH)
 
     search = SearchPage(browser)
     # search.close_exact_search()
@@ -240,30 +231,15 @@ def test_poi_changed_name(browser, mobile):
     my_maps = FirstPage(browser)
     my_maps.my_maps()
 
-    # three dots
-    elem = browser.find_element_by_xpath(
-        '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[2]/li/div[1]/span[3]').click()
-    #delete
-    elem = browser.find_element_by_xpath(
-        '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[2]/li/ul/li[6]').click()
-    # delete button in dialod window
-    elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/button[1]').click()
-
+    delete_poi(browser)
 
 
 def test_base_poi(browser, mobile):
-    my_maps = FirstPage(browser)
-    my_maps.load()
-    my_maps.my_maps()
-
-    login = LoginPage(browser)
-    login.sign_in()
+    login(browser)
 
     SEARCH: str = 'Rudolfinum'
 
-    search = FirstPage(browser)
-    search.load()
-    search.search(SEARCH)
+    search_element(browser, SEARCH)
 
     search = SearchPage(browser)
     # search.close_exact_search()
@@ -291,11 +267,344 @@ def test_base_poi(browser, mobile):
     my_maps = FirstPage(browser)
     my_maps.my_maps()
 
-    # three dots
-    elem = browser.find_element_by_xpath(
-        '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[2]/li/div[1]/span[3]').click()
-    #delete
-    elem = browser.find_element_by_xpath(
-        '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[2]/li/ul/li[6]').click()
-    # delete button in dialod window
-    elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/button[1]').click()
+    delete_poi(browser)
+
+
+def test_firm_poi(browser, mobile):
+    login(browser)
+
+    SEARCH: str = 'Home Office Bistro & Coffee - Fruitisimo'
+
+    search_element(browser, SEARCH)
+
+    search = SearchPage(browser)
+    # search.close_exact_search()
+    search.save_exact_match()
+
+    save_page = SavePage(browser)
+    save_page.save()
+
+    # mobile
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    assert elem.get_attribute('text') == SEARCH
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    delete_poi(browser)
+
+
+
+
+
+def test_firm_poi(browser, mobile):
+    login(browser)
+
+    SEARCH: str = 'Plzeňský restaurant Anděl'
+
+    search_element(browser, SEARCH)
+
+    search = SearchPage(browser)
+    # search.close_exact_search()
+    search.save_exact_match()
+
+    save_page = SavePage(browser)
+    save_page.save()
+
+    # mobile
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    assert elem.get_attribute('text') == SEARCH
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    delete_poi(browser)
+
+
+
+def test_pubt_poi(browser, mobile):
+    login(browser)
+
+    SEARCH: str = 'Zborovská zastávka tramvaje'
+
+    search_element(browser, SEARCH)
+
+    search = SearchPage(browser)
+    search.search_result_several()
+    search.save_exact_match()
+
+    save_page = SavePage(browser)
+    save_page.save()
+
+    # mobile
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    assert elem.get_attribute('text') == 'Zborovská'
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    delete_poi(browser)
+
+
+def test_osm_poi(browser, mobile):
+
+    login(browser)
+
+    SEARCH: str = 'London Eye'
+    search_element(browser, SEARCH)
+
+    search = SearchPage(browser)
+    search.save_exact_match()
+
+    save_page = SavePage(browser)
+    save_page.save()
+
+    # mobile
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    assert elem.get_attribute('text') == SEARCH
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    delete_poi(browser)
+
+
+def test_country_poi(browser, mobile):
+
+    login(browser)
+
+    SEARCH: str = 'Polsko'
+    search_element(browser, SEARCH)
+
+    search = SearchPage(browser)
+    search.save_exact_match()
+
+    save_page = SavePage(browser)
+    save_page.save()
+
+    # mobile
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    assert elem.get_attribute('text') == 'Poland'
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    delete_poi(browser)
+
+
+
+def test_muni_poi(browser, mobile):
+
+    login(browser)
+
+    SEARCH: str = 'Wurzen'
+    search_element(browser, SEARCH)
+
+    search = SearchPage(browser)
+    search.save_exact_match()
+
+    save_page = SavePage(browser)
+    save_page.save()
+
+    # mobile
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    assert elem.get_attribute('text') == 'Wurzen'
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    delete_poi(browser)
+
+
+
+def test_coor_changed_name(browser, mobile):
+
+    login(browser)
+
+    coor = FirstPage(browser)
+    coor.load()
+    coor.coor()
+
+    poi = SearchPage(browser)
+    poi.save_exact_match()
+
+    save_page = SavePage(browser)
+    save_page.save()
+
+    #mobile check
+    # mobile
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    assert elem.get_attribute('text') == 'Position on the map'
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    delete_poi(browser)
+
+
+def test_coor_changed_name_rename(browser, mobile):
+
+    login(browser)
+
+    coor = FirstPage(browser)
+    coor.load()
+    coor.coor()
+
+    poi = SearchPage(browser)
+    poi.save_exact_match()
+
+    save_page = SavePage(browser)
+    save_page.change_name('Coor s vlastním názvem')
+    save_page.save()
+
+    #mobile check
+    # mobile
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    assert elem.get_attribute('text') == 'Coor s vlastním názvem'
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    delete_poi(browser)
+
+
+
+
+def test_planning(browser, mobile):
+
+    login(browser)
+
+    planning = FirstPage(browser)
+    planning.load()
+    planning.planning()
+
+    auto = PlanningPage(browser)
+    #auto.auto()
+
+    auto.start()
+    auto.end()
+
+    auto.save_route()
+
+    save_page = SavePage(browser)
+    save_page.change_name('Route')
+    save_page.save()
+
+    # mobile check
+    # mobile
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    assert elem.get_attribute('text') == 'Route'
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    delete_poi(browser)
+

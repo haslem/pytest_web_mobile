@@ -8,7 +8,7 @@ class SavePage(object):
     def change_name(self, new_name):
         elem = self.browser.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/input')
 
-        for i in range(20):
+        for i in range(40):
             elem.send_keys(u'\ue003')
         elem.send_keys(new_name)
 

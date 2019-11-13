@@ -8,3 +8,9 @@ class MyMapsScreen(object):
 
     def refresh(self):
         self.elem = self.mobile.find_element_by_id('cz.seznam.mapy:id/syncButton').click()
+
+
+    def create_folder(self):
+        elem = self.mobile.find_element_by_id('cz.seznam.mapy:id/actionButton').click()
+        elem = self.mobile.find_element_by_id('cz.seznam.mapy:id/titleInput').send_keys('Changed names')
+        elem = self.mobile.find_element_by_id('cz.seznam.mapy:id/menu_save').click()

@@ -23,6 +23,14 @@ class SearchPage(object):
 		elem = self.browser.find_element(*self.EXACT_SEARCH_TITLE_LOC)	
 		return elem.text
 
+	def search_result_several(self):
+		WebDriverWait(self.browser, 10).until(
+			EC.presence_of_element_located((By.ID, 'search-results')))
+
+		# print(*self.EXACT_SEARCH_TITLE_LOC)
+		elem = self.browser.find_element(By.XPATH, "//a[@class='li-inner']").click()
+
+
 	def save_exact_match(self):
 		# save poi, star button
 		elem = self.browser.find_elements(By.CSS_SELECTOR, "div[class='icon-action']")
