@@ -5,6 +5,12 @@ from pages.login_page import LoginPage
 from pages.save_page import SavePage
 
 
+from screens.main_screen import MainScreen
+from screens.menu_screen import MenuScreen
+from screens.login_screen import LogInScreen
+from screens.my_maps_screen import MyMapsScreen
+
+
 def delete_poi(browser):
 
 # three dots
@@ -42,3 +48,32 @@ def search_element(browser, SEARCH):
     search.load()
     search.search(SEARCH)
 
+
+def check_mobile_folder(mobile):
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.TextView')
+    return  elem
+
+
+def check_mobile_item(mobile):
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem = mobile.find_element_by_xpath(
+        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    return elem

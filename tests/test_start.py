@@ -1,4 +1,4 @@
-import test_web_mobile
+import web_mobile as test_web_mobile
 import mobile_web
 
 import pytest
@@ -61,14 +61,15 @@ def browser(config):
 # def test_folder_sync_mobile_web(browser, mobile):
 #     mobile_web.test_mobile_web_folder_sync(browser, mobile)
 
-def test_folder_sync(browser, mobile):
-    test_web_mobile.test_folder_sync(browser, mobile)
 
-def test_poi_changed_name(browser, mobile):
-    test_web_mobile.test_poi_changed_name(browser, mobile)
+# def test_folder_sync(browser, mobile):
+#     test_web_mobile.test_folder_sync(browser, mobile)
 
-def test_base_poi(browser, mobile):
-    test_web_mobile.test_base_poi(browser, mobile)
+# def test_poi_changed_name(browser, mobile):
+#     test_web_mobile.test_poi_changed_name(browser, mobile)
+#
+# def test_base_poi(browser, mobile):
+#     test_web_mobile.test_base_poi(browser, mobile)
 #
 # def test_firm_poi(browser, mobile):
 #     test_web_mobile.test_firm_poi(browser, mobile)
@@ -90,6 +91,28 @@ def test_base_poi(browser, mobile):
 #
 # def test_coor_changed_name_rename(browser, mobile):
 #     test_web_mobile.test_coor_changed_name_rename(browser, mobile)
+
+# def test_planning1(browser, mobile):
+#     test_web_mobile.test_planning1(browser, mobile)
+
+# def test_planning2(browser, mobile):
+#     test_web_mobile.test_planning2(browser, mobile)
+
+# def test_planning3(browser, mobile):
+#     test_web_mobile.test_planning3(browser, mobile)
 #
-# def test(browser, mobile):
-#     test_web_mobile.test_planning(browser, mobile)
+# def test_planning4(browser, mobile):
+#     test_web_mobile.test_planning4(browser, mobile)
+
+
+# def test_planning5(browser, mobile):
+#     test_web_mobile.test_planning5(browser, mobile)
+
+# def test_planning6(browser, mobile):
+#     test_web_mobile.test_planning6(browser, mobile)
+
+# def test_planning7(browser, mobile):
+#     test_web_mobile.test_planning7(browser, mobile)
+
+def test_trip(browser, mobile):
+    test_web_mobile.test_trip(browser, mobile)

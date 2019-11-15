@@ -57,3 +57,11 @@ class FirstPage(object):
         ActionChains(self.browser).move_by_offset(100, 100).context_click().perform()
         elem = self.browser.find_element_by_partial_link_text('What')
         elem.click()
+
+    def trip(self):
+        elem = self.browser.find_element_by_id('map')
+        elem.click()
+
+        ActionChains(self.browser).move_by_offset(100, 100).context_click().perform()
+        elem = self.browser.find_element_by_partial_link_text('Trip')
+        elem.click()
