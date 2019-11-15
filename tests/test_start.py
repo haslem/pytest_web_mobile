@@ -64,7 +64,7 @@ def browser(config):
 
 # def test_folder_sync(browser, mobile):
 #     test_web_mobile.test_folder_sync(browser, mobile)
-
+#
 # def test_poi_changed_name(browser, mobile):
 #     test_web_mobile.test_poi_changed_name(browser, mobile)
 #
@@ -83,36 +83,49 @@ def browser(config):
 # def test_country_poi(browser, mobile):
 #     test_web_mobile.test_country_poi(browser, mobile)
 #
-# def test_muni_poi(browser, mobile):
-#     test_web_mobile.test_muni_poi(browser, mobile)
-#
-# def test_coor_changed_name(browser, mobile):
-#     test_web_mobile.test_coor_changed_name(browser, mobile)
-#
-# def test_coor_changed_name_rename(browser, mobile):
-#     test_web_mobile.test_coor_changed_name_rename(browser, mobile)
+def test_muni_poi(browser, mobile):
+    test_web_mobile.test_muni_poi(browser, mobile)
 
-# def test_planning1(browser, mobile):
-#     test_web_mobile.test_planning1(browser, mobile)
+def test_coor_changed_name(browser, mobile):
+    test_web_mobile.test_coor_changed_name(browser, mobile)
 
-# def test_planning2(browser, mobile):
-#     test_web_mobile.test_planning2(browser, mobile)
+def test_coor_changed_name_rename(browser, mobile):
+    test_web_mobile.test_coor_changed_name_rename(browser, mobile)
 
-# def test_planning3(browser, mobile):
-#     test_web_mobile.test_planning3(browser, mobile)
-#
-# def test_planning4(browser, mobile):
-#     test_web_mobile.test_planning4(browser, mobile)
+def test_planning1(browser, mobile):
+    test_web_mobile.test_planning1(browser, mobile)
+
+def test_planning2(browser, mobile):
+    test_web_mobile.test_planning2(browser, mobile)
+
+def test_planning3(browser, mobile):
+    test_web_mobile.test_planning3(browser, mobile)
+
+def test_planning4(browser, mobile):
+    test_web_mobile.test_planning4(browser, mobile)
 
 
-# def test_planning5(browser, mobile):
-#     test_web_mobile.test_planning5(browser, mobile)
+def test_planning5(browser, mobile):
+    test_web_mobile.test_planning5(browser, mobile)
 
-# def test_planning6(browser, mobile):
-#     test_web_mobile.test_planning6(browser, mobile)
+def test_planning6(browser, mobile):
+    test_web_mobile.test_planning6(browser, mobile)
 
-# def test_planning7(browser, mobile):
-#     test_web_mobile.test_planning7(browser, mobile)
+def test_planning7(browser, mobile):
+    test_web_mobile.test_planning7(browser, mobile)
 
-def test_trip(browser, mobile):
-    test_web_mobile.test_trip(browser, mobile)
+def test_trip_foot(browser, mobile):
+    test_web_mobile.test_trip_foot(browser, mobile)
+
+def test_trip_bike(browser, mobile):
+    test_web_mobile.test_trip_bike(browser, mobile)
+
+def test_my_marks(browser, mobile):
+    test_web_mobile.test_my_marks_one(browser, mobile, 1)
+
+def test_measurement(browser, mobile):
+    test_web_mobile.test_measurement(browser, mobile)
+
+
+def test_set_home_work(browser, mobile):
+    test_web_mobile.test_set_home(browser, mobile)

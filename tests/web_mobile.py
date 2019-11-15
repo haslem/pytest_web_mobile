@@ -17,6 +17,9 @@ from pages.login_page import LoginPage
 from pages.save_page import SavePage
 from pages.planning_page import PlanningPage
 from pages.trip_page import TripPage
+from pages.tools_page import ToolsPage
+from pages.my_poi_page import MyPoiPage
+from pages.measurement_page import MeasurementPage
 
 from selenium.webdriver.common.by import By
 #from functions.functions import delete_poi, delete_folder, login, search_element
@@ -674,7 +677,36 @@ def test_planning7(browser, mobile):
     functions.delete_poi(browser)
 
 
-def test_trip(browser, mobile):
+def test_trip_foot(browser, mobile):
+
+    functions.login(browser)
+
+    trip = FirstPage(browser)
+    trip.load()
+    trip.trip()
+
+    trip = TripPage(browser)
+    #trip.foot()
+    trip.save_trip()
+
+    save_page = SavePage(browser)
+    save_page.change_name('Foot trip')
+    save_page.save()
+
+    #mobile check
+    # mobile
+    elem = functions.check_mobile_item(mobile)
+    assert elem.get_attribute('text') == 'Foot trip'
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    functions.delete_poi(browser)
+
+
+def test_trip_bike(browser, mobile):
 
     functions.login(browser)
 
@@ -684,6 +716,9 @@ def test_trip(browser, mobile):
 
     trip = TripPage(browser)
     trip.bike()
+    trip.change_dist()
+    for i in range(100000000):
+        pass
     trip.save_trip()
 
     save_page = SavePage(browser)
@@ -701,3 +736,101 @@ def test_trip(browser, mobile):
     my_maps.my_maps()
 
     functions.delete_poi(browser)
+
+def test_my_marks(browser, mobile, num_points):
+
+    functions.login(browser)
+
+    marks = FirstPage(browser)
+    marks.load()
+    marks.tools()
+
+    marks = ToolsPage(browser)
+    marks.my_marks()
+
+    marks = MyPoiPage(browser, num_points)
+    marks.add_points()
+    marks.rename_last()
+    marks.stop_adding()
+    marks.save()
+
+    save_page = SavePage(browser)
+    save_page.change_name('One point')
+    save_page.save()
+
+    #mobile check
+    # mobile
+    elem = functions.check_mobile_item(mobile)
+    assert elem.get_attribute('text') == 'One point'
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    functions.delete_poi(browser)
+
+
+
+def test_measurement(browser, mobile):
+
+    functions.login(browser)
+
+    measure = FirstPage(browser)
+    measure.load()
+    measure.tools()
+
+    measure = ToolsPage(browser)
+    measure.measurement()
+
+    measure = MeasurementPage(browser)
+    measure.add()
+    measure.save()
+
+    save_page = SavePage(browser)
+    save_page.change_name('Measurement')
+    save_page.save()
+
+    #mobile check
+    # mobile
+    elem = functions.check_mobile_item(mobile)
+    assert elem.get_attribute('text') == 'Measurement'
+
+    # delete folder on web
+
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+    functions.delete_poi(browser)
+
+
+def test_set_home(browser, mobile):
+
+    functions.login(browser)
+
+    home = FirstPage(browser)
+    home.my_maps()
+    home = MyMapsPage(browser)
+    home.set_home()
+    for i in range(100000000):
+        pass
+    home.set_work()
+
+
+    #mobile check
+    # mobile
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+
+    menu_screen = MenuScreen(mobile)
+    menu_screen.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    my_maps.refresh()
+
+    elem_home = mobile.find_element_by_xpath(
+        '//android.widget.FrameLayout[@content-desc="Home: Muzeum"]/android.widget.LinearLayout/android.widget.TextView')
+    elem_work = mobile.find_element_by_xpath(
+        '//android.widget.FrameLayout[@content-desc="Work: Rudolfinum"]/android.widget.LinearLayout/android.widget.TextView')
+
+    assert elem_home.get_attribute('text') == 'Muzeum' and elem_work.get_attribute('text') == 'Rudolfinum'
