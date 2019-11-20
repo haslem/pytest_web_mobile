@@ -11,7 +11,23 @@ from screens.login_screen import LogInScreen
 from screens.my_maps_screen import MyMapsScreen
 
 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+from selenium.webdriver.common.by import By
+
 def delete_poi(browser):
+    for i in range(100000000):
+        pass
+    my_maps = FirstPage(browser)
+    my_maps.my_maps()
+
+
+    #pass
+
+
+    elem = WebDriverWait(browser, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//span[@class='opts']")))
 
 # three dots
     elem = browser.find_element_by_xpath(
@@ -68,6 +84,7 @@ def check_mobile_folder(mobile):
 
 
 def check_mobile_item(mobile):
+    #pass
     main_screen = MainScreen(mobile)
     main_screen.menu_click()
 
@@ -77,6 +94,9 @@ def check_mobile_item(mobile):
     my_maps = MyMapsScreen(mobile)
     my_maps.refresh()
 
+
+    #elem = mobile.find_element_by_xpath(f'//*[@text = {element_title}]')
     elem = mobile.find_element_by_xpath(
         '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    elem.get_attribute('text')
     return elem

@@ -41,7 +41,8 @@ class FirstPage(object):
 
 
     def my_maps(self):
-        self.elem = self.browser.find_element(By.CSS_SELECTOR, ".icon.mymap").click()
+        #self.elem = self.browser.find_element(By.CSS_SELECTOR, ".icon.mymap").click()
+        self.elem = self.browser.find_element(By.XPATH, "//span[text()='My maps']").click()
 
     def planning(self):
         elem = self.browser.find_element(By.XPATH, "//button[@class='icon route']").click()

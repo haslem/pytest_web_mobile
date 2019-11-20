@@ -3,7 +3,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 def timeout():
-    for _ in range(1000000):
+    for _ in range(10000000):
         pass
 
 
@@ -68,12 +68,14 @@ class PlanningPage(object):
             EC.presence_of_element_located((By.XPATH, "//input[@aria-label='Start']")))
         elem.send_keys('Most Legii')
         elem.send_keys(u'\ue007')
+        elem = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//button[text()='Trips nearby']")))
+
 
     def end_boat(self):
         elem = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.XPATH, "//input[@aria-label='End']")))
         elem.send_keys('Jiraskuv most')
-        timeout()
         elem.send_keys(u'\ue007')
 
     def save_route(self):

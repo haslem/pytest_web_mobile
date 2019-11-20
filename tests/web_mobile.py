@@ -26,6 +26,10 @@ from selenium.webdriver.common.by import By
 from functions import functions
 
 
+def timeout():
+    for i in range(100000000):
+        pass
+
 @pytest.fixture(scope='session')
 def desired_cap():
     with open('desired_cap.json') as config_file:
@@ -151,37 +155,37 @@ def browser(config):
 #     login.sign_in()
 
 
-def test_folder_sync(browser, mobile):
-    functions.login(browser)
-
-    my_maps = FirstPage(browser)
-    my_maps.load()
-    my_maps.my_maps()
-
-    my_maps = MyMapsPage(browser)
-    my_maps.create_folder()
-
-    # mobile
-    # USER_NAME = 'mapytesting2'
-    # PASSWORD = 'testingmapy'
-    #
-    # main_screen = MainScreen(mobile)
-    # main_screen.menu_click()
-    #
-    # menu_screen = MenuScreen(mobile)
-    # menu_screen.log_in()
-    #
-    # login_screen = LogInScreen(mobile)
-    # login_screen.user_name(USER_NAME)
-    # login_screen.password(PASSWORD)
-    # login_screen.sign_in_button()
-
-    # mobile
-    elem = functions.check_mobile_folder(mobile)
-    assert elem.get_attribute('text') == 'Changed names'
-
-    #delete
-    functions.delete_folder(browser)
+# def test_folder_sync(browser, mobile):
+#     functions.login(browser)
+#
+#     my_maps = FirstPage(browser)
+#     my_maps.load()
+#     my_maps.my_maps()
+#
+#     my_maps = MyMapsPage(browser)
+#     my_maps.create_folder()
+#
+#     # mobile
+#     # USER_NAME = 'mapytesting2'
+#     # PASSWORD = 'testingmapy'
+#     #
+#     # main_screen = MainScreen(mobile)
+#     # main_screen.menu_click()
+#     #
+#     # menu_screen = MenuScreen(mobile)
+#     # menu_screen.log_in()
+#     #
+#     # login_screen = LogInScreen(mobile)
+#     # login_screen.user_name(USER_NAME)
+#     # login_screen.password(PASSWORD)
+#     # login_screen.sign_in_button()
+#
+#     # mobile
+#     elem = functions.check_mobile_folder(mobile)
+#     assert elem.get_attribute('text') == 'Changed names'
+#
+#     #delete
+#     functions.delete_folder(browser)
 
 
 def test_poi_changed_name(browser, mobile):
@@ -205,8 +209,7 @@ def test_poi_changed_name(browser, mobile):
 
     # delete folder on web
 
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
+
 
     functions.delete_poi(browser)
 
@@ -230,10 +233,6 @@ def test_base_poi(browser, mobile):
     assert elem.get_attribute('text') == SEARCH
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
     functions.delete_poi(browser)
 
 
@@ -257,10 +256,6 @@ def test_firm_poi(browser, mobile):
     assert elem.get_attribute('text') == SEARCH
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
     functions.delete_poi(browser)
 
 
@@ -273,9 +268,11 @@ def test_pubt_poi(browser, mobile):
     functions.search_element(browser, SEARCH)
 
     search = SearchPage(browser)
-    search.search_result_several()
-    search.save_exact_match()
-
+    try:
+        search.search_result_several()
+        search.save_exact_match()
+    except:
+        search.save_exact_match()
     save_page = SavePage(browser)
     save_page.save()
 
@@ -284,10 +281,6 @@ def test_pubt_poi(browser, mobile):
     assert elem.get_attribute('text') == 'Zborovská'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
     functions.delete_poi(browser)
 
 
@@ -309,10 +302,6 @@ def test_osm_poi(browser, mobile):
     assert elem.get_attribute('text') == SEARCH
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
     functions.delete_poi(browser)
 
 
@@ -330,23 +319,10 @@ def test_country_poi(browser, mobile):
     save_page.save()
 
     # mobile
-    main_screen = MainScreen(mobile)
-    main_screen.menu_click()
-
-    menu_screen = MenuScreen(mobile)
-    menu_screen.places_and_routes()
-
-    my_maps = MyMapsScreen(mobile)
-    my_maps.refresh()
-
-    elem = mobile.find_element_by_xpath(
-        '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.FrameLayout[1]/android.widget.FrameLayout/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup/android.widget.TextView[1]')
+    elem = functions.check_mobile_item(mobile)
     assert elem.get_attribute('text') == 'Poland'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
 
     functions.delete_poi(browser)
 
@@ -370,9 +346,6 @@ def test_muni_poi(browser, mobile):
     assert elem.get_attribute('text') == 'Wurzen'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
 
     functions.delete_poi(browser)
 
@@ -399,9 +372,6 @@ def test_coor_changed_name(browser, mobile):
 
     # delete folder on web
 
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
     functions.delete_poi(browser)
 
 
@@ -426,9 +396,6 @@ def test_coor_changed_name_rename(browser, mobile):
     assert elem.get_attribute('text') == 'Coor s vlastním názvem'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
 
     functions.delete_poi(browser)
 
@@ -461,9 +428,6 @@ def test_planning1(browser, mobile):
     assert elem.get_attribute('text') == 'Route'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
 
     functions.delete_poi(browser)
 
@@ -499,9 +463,6 @@ def test_planning2(browser, mobile):
 
     # delete folder on web
 
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
     functions.delete_poi(browser)
 
 
@@ -533,9 +494,6 @@ def test_planning3(browser, mobile):
     assert elem.get_attribute('text') == 'Route avoid Switzerland'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
 
     functions.delete_poi(browser)
 
@@ -570,9 +528,6 @@ def test_planning4(browser, mobile):
 
     # delete folder on web
 
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
     functions.delete_poi(browser)
 
 
@@ -601,9 +556,6 @@ def test_planning5(browser, mobile):
     assert elem.get_attribute('text') == 'Route bike'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
 
     functions.delete_poi(browser)
 
@@ -634,9 +586,6 @@ def test_planning6(browser, mobile):
 
     # delete folder on web
 
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
     functions.delete_poi(browser)
 
 
@@ -666,14 +615,12 @@ def test_planning7(browser, mobile):
 
     # mobile check
     # mobile
+    # #elem = functions.check_mobile_item(mobile, 'Route foot short')
     elem = functions.check_mobile_item(mobile)
     assert elem.get_attribute('text') == 'Route foot short'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
+    timeout()
     functions.delete_poi(browser)
 
 
@@ -699,9 +646,6 @@ def test_trip_foot(browser, mobile):
     assert elem.get_attribute('text') == 'Foot trip'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
 
     functions.delete_poi(browser)
 
@@ -731,10 +675,6 @@ def test_trip_bike(browser, mobile):
     assert elem.get_attribute('text') == 'Bike trip'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
     functions.delete_poi(browser)
 
 def test_my_marks(browser, mobile, num_points):
@@ -757,17 +697,13 @@ def test_my_marks(browser, mobile, num_points):
     save_page = SavePage(browser)
     save_page.change_name('One point')
     save_page.save()
-
-    #mobile check
-    # mobile
+    #
+    # #mobile check
+    # # mobile
     elem = functions.check_mobile_item(mobile)
     assert elem.get_attribute('text') == 'One point'
 
     # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
-
     functions.delete_poi(browser)
 
 
@@ -795,11 +731,6 @@ def test_measurement(browser, mobile):
     # mobile
     elem = functions.check_mobile_item(mobile)
     assert elem.get_attribute('text') == 'Measurement'
-
-    # delete folder on web
-
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
 
     functions.delete_poi(browser)
 
