@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 class SavePage(object):
     def __init__(self, browser):
@@ -13,6 +15,8 @@ class SavePage(object):
         elem.send_keys(new_name)
 
     def save(self):
+        elem = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div[4]/button[1]')))
         elem = self.browser.find_element_by_xpath('/html/body/div[2]/div/div[4]/button[1]').click()
 
 

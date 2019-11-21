@@ -211,7 +211,7 @@ def test_poi_changed_name(browser, mobile):
 
 
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 def test_base_poi(browser, mobile):
@@ -233,7 +233,7 @@ def test_base_poi(browser, mobile):
     assert elem.get_attribute('text') == SEARCH
 
     # delete folder on web
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 
@@ -256,7 +256,7 @@ def test_firm_poi(browser, mobile):
     assert elem.get_attribute('text') == SEARCH
 
     # delete folder on web
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 
@@ -281,7 +281,7 @@ def test_pubt_poi(browser, mobile):
     assert elem.get_attribute('text') == 'Zborovská'
 
     # delete folder on web
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 def test_osm_poi(browser, mobile):
@@ -302,7 +302,7 @@ def test_osm_poi(browser, mobile):
     assert elem.get_attribute('text') == SEARCH
 
     # delete folder on web
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 def test_country_poi(browser, mobile):
@@ -324,7 +324,7 @@ def test_country_poi(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 
@@ -347,7 +347,7 @@ def test_muni_poi(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 
@@ -372,7 +372,7 @@ def test_coor_changed_name(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 def test_coor_changed_name_rename(browser, mobile):
@@ -397,7 +397,7 @@ def test_coor_changed_name_rename(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 
@@ -429,7 +429,7 @@ def test_planning1(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 
@@ -463,7 +463,7 @@ def test_planning2(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 def test_planning3(browser, mobile):
@@ -495,7 +495,7 @@ def test_planning3(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 
@@ -528,7 +528,7 @@ def test_planning4(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 def test_planning5(browser, mobile):
@@ -557,7 +557,7 @@ def test_planning5(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 def test_planning6(browser, mobile):
@@ -586,7 +586,7 @@ def test_planning6(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 
@@ -621,7 +621,7 @@ def test_planning7(browser, mobile):
 
     # delete folder on web
     timeout()
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 def test_trip_foot(browser, mobile):
@@ -647,7 +647,7 @@ def test_trip_foot(browser, mobile):
 
     # delete folder on web
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 def test_trip_bike(browser, mobile):
@@ -675,7 +675,7 @@ def test_trip_bike(browser, mobile):
     assert elem.get_attribute('text') == 'Bike trip'
 
     # delete folder on web
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 def test_my_marks(browser, mobile, num_points):
 
@@ -704,7 +704,7 @@ def test_my_marks(browser, mobile, num_points):
     assert elem.get_attribute('text') == 'One point'
 
     # delete folder on web
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 
@@ -732,7 +732,7 @@ def test_measurement(browser, mobile):
     elem = functions.check_mobile_item(mobile)
     assert elem.get_attribute('text') == 'Measurement'
 
-    functions.delete_poi(browser)
+    functions.delete_poi(mobile)
 
 
 def test_set_home(browser, mobile):
@@ -765,3 +765,15 @@ def test_set_home(browser, mobile):
         '//android.widget.FrameLayout[@content-desc="Work: Rudolfinum"]/android.widget.LinearLayout/android.widget.TextView')
 
     assert elem_home.get_attribute('text') == 'Muzeum' and elem_work.get_attribute('text') == 'Rudolfinum'
+
+
+
+def create_folder_and_items(browser, mobile):
+    functions.login(browser)
+    my_maps = FirstPage(browser)
+    my_maps.load()
+    my_maps.my_maps()
+
+    my_maps = MyMapsPage(browser)
+    my_maps.create_folder()
+

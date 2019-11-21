@@ -17,26 +17,41 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 def delete_poi(browser):
-    for i in range(100000000):
-        pass
-    my_maps = FirstPage(browser)
-    my_maps.my_maps()
+
+#     #delete from web
+#     for i in range(100000000):
+#         pass
+#     my_maps = FirstPage(browser)
+#     my_maps.my_maps()
+#
+#
+#     #pass
+#     elem = WebDriverWait(browser, 10).until(
+#             EC.presence_of_element_located((By.XPATH, '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[2]/li/div[1]/span[3]')))
+#
+# # three dots
+#     elem = browser.find_element_by_xpath(
+#         '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[2]/li/div[1]/span[3]').click()
+#     #delete
+#     elem = WebDriverWait(browser, 10).until(
+#         EC.presence_of_element_located((By.XPATH, "//h3[text()='Delete']")))
+#     elem = browser.find_element_by_xpath(
+#         "//h3[text()='Delete']").click()
+#     # delete button in dialod window
+#     elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/button[1]').click()
 
 
-    #pass
 
+    #delete from mobile
+    elem = browser.find_element_by_id('cz.seznam.mapy:id/moreButton').click()
+    elem = browser.find_element_by_xpath("//android.widget.TextView[@text='Delete']").click()
+    try:
+        elem = browser.find_element_by_id('android:id/button1').click()
 
-    elem = WebDriverWait(browser, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//span[@class='opts']")))
+    except:
+        elem = browser.find_element_by_id("cz.seznam.mapy:id/menu_mymaps_delete").click()
+        elem = browser.find_element_by_id('android:id/button1').click()
 
-# three dots
-    elem = browser.find_element_by_xpath(
-        '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/ul[2]/li/div[1]/span[3]').click()
-    #delete
-    elem = browser.find_element_by_xpath(
-        "//h3[text()='Delete']").click()
-    # delete button in dialod window
-    elem = browser.find_element_by_xpath('/html/body/div[2]/div/div[2]/button[1]').click()
 
 
 

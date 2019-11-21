@@ -79,19 +79,19 @@ def test_pubt_poi(browser, mobile):
 
 def test_osm_poi(browser, mobile):
     test_web_mobile.test_osm_poi(browser, mobile)
-#
+
 def test_country_poi(browser, mobile):
     test_web_mobile.test_country_poi(browser, mobile)
 
 def test_muni_poi(browser, mobile):
     test_web_mobile.test_muni_poi(browser, mobile)
-
+#
 def test_coor_changed_name(browser, mobile):
     test_web_mobile.test_coor_changed_name(browser, mobile)
 
 def test_coor_changed_name_rename(browser, mobile):
     test_web_mobile.test_coor_changed_name_rename(browser, mobile)
-#
+
 def test_planning1(browser, mobile):
     test_web_mobile.test_planning1(browser, mobile)
 

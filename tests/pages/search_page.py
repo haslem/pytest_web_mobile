@@ -33,6 +33,8 @@ class SearchPage(object):
 
 	def save_exact_match(self):
 		# save poi, star button
+		elem = WebDriverWait(self.browser, 10).until(
+			EC.presence_of_element_located((By.CSS_SELECTOR, "div[class='icon-action']")))
 		elem = self.browser.find_elements(By.CSS_SELECTOR, "div[class='icon-action']")
 		elem[1].click()
 
