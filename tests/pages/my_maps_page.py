@@ -15,12 +15,12 @@ class MyMapsPage(object):
         self.browser = browser
 
 
-    def create_folder(self):
+    def create_folder(self, name):
 
         self.elem = self.browser.find_element_by_class_name('make-folder-btn').click()
         # folder name
         self.elem = self.browser.find_element_by_xpath(
-                '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/div[1]/div[5]/div/input').send_keys("Changed names")
+                '/html/body/div/div[2]/div[2]/div[1]/div/div[3]/div/div[1]/div[5]/div/input').send_keys(name)
         # save
         elem = self.browser.find_element_by_class_name('save').click()
 

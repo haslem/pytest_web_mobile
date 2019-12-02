@@ -4,6 +4,7 @@ from screens.main_screen import MainScreen
 from screens.menu_screen import MenuScreen
 from screens.login_screen import LogInScreen
 from screens.my_maps_screen import MyMapsScreen
+from screens.folder_screen import FolderScreen
 
 import json
 import pytest
@@ -155,37 +156,37 @@ def browser(config):
 #     login.sign_in()
 
 
-# def test_folder_sync(browser, mobile):
-#     functions.login(browser)
-#
-#     my_maps = FirstPage(browser)
-#     my_maps.load()
-#     my_maps.my_maps()
-#
-#     my_maps = MyMapsPage(browser)
-#     my_maps.create_folder()
-#
-#     # mobile
-#     # USER_NAME = 'mapytesting2'
-#     # PASSWORD = 'testingmapy'
-#     #
-#     # main_screen = MainScreen(mobile)
-#     # main_screen.menu_click()
-#     #
-#     # menu_screen = MenuScreen(mobile)
-#     # menu_screen.log_in()
-#     #
-#     # login_screen = LogInScreen(mobile)
-#     # login_screen.user_name(USER_NAME)
-#     # login_screen.password(PASSWORD)
-#     # login_screen.sign_in_button()
-#
-#     # mobile
-#     elem = functions.check_mobile_folder(mobile)
-#     assert elem.get_attribute('text') == 'Changed names'
-#
-#     #delete
-#     functions.delete_folder(browser)
+def test_folder_sync(browser, mobile):
+    functions.login(browser)
+
+    my_maps = FirstPage(browser)
+    my_maps.load()
+    my_maps.my_maps()
+
+    my_maps = MyMapsPage(browser)
+    my_maps.create_folder('Changed names')
+
+    # mobile
+    # USER_NAME = 'mapytesting2'
+    # PASSWORD = 'testingmapy'
+    #
+    # main_screen = MainScreen(mobile)
+    # main_screen.menu_click()
+    #
+    # menu_screen = MenuScreen(mobile)
+    # menu_screen.log_in()
+    #
+    # login_screen = LogInScreen(mobile)
+    # login_screen.user_name(USER_NAME)
+    # login_screen.password(PASSWORD)
+    # login_screen.sign_in_button()
+
+    # mobile
+    elem = functions.check_mobile_folder(mobile)
+    assert elem.get_attribute('text') == 'Changed names'
+
+    #delete
+    functions.delete_folder(mobile)
 
 
 def test_poi_changed_name(browser, mobile):
@@ -768,12 +769,52 @@ def test_set_home(browser, mobile):
 
 
 
-def create_folder_and_items(browser, mobile):
+def test_create_folder_and_items(browser, mobile):
     functions.login(browser)
     my_maps = FirstPage(browser)
     my_maps.load()
     my_maps.my_maps()
 
     my_maps = MyMapsPage(browser)
-    my_maps.create_folder()
+    my_maps.create_folder('new folder')
+
+
+
+    SEARCH: str = 'Rudolfinum'
+    functions.search_element(browser, SEARCH)
+
+    search = SearchPage(browser)
+    search.save_exact_match()
+
+    save_page = SavePage(browser)
+    save_page.select_folder('new folder')
+    save_page.save()
+
+
+    planning = FirstPage(browser)
+    planning.load()
+    planning.planning()
+
+    auto = PlanningPage(browser)
+    # auto.auto()
+
+    auto.start()
+    auto.end()
+
+    auto.save_route()
+
+    save_page = SavePage(browser)
+    save_page.change_name('Route')
+    save_page.select_folder('new folder')
+    save_page.save()
+
+    elem = functions.check_mobile_folder(mobile)
+    elem = mobile.find_element_by_id('cz.seznam.mapy:id/image').click()
+    folder_screen = FolderScreen(mobile)
+    print(len(folder_screen.get_titles))
+
+    mobile.back()
+
+    #delete
+    functions.delete_folder(mobile)
 

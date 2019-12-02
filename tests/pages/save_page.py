@@ -3,16 +3,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 class SavePage(object):
-    def __init__(self, browser):
-        self.browser = browser
+    def __init__(self, mobile):
+        self.mobile = mobile
 
 
     def change_name(self, new_name):
-        elem = self.browser.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/input')
+        elem = self.mobile.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/input')
 
         for i in range(80):
             elem.send_keys(u'\ue003')
         elem.send_keys(new_name)
+
+    def select_folder(self, name):
+        elem = self.browser.find_element(By.XPATH, "//h2[text()='My places and routes']").click()
+        elem = self.browser.find_element(By.XPATH, f"//span[text()='{name}']").click()
 
     def save(self):
         elem = WebDriverWait(self.browser, 10).until(
