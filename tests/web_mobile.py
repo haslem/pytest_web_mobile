@@ -166,7 +166,7 @@ def test_folder_sync(browser, mobile):
     my_maps = MyMapsPage(browser)
     my_maps.create_folder('Changed names')
 
-    # mobile
+    # #mobile
     # USER_NAME = 'mapytesting2'
     # PASSWORD = 'testingmapy'
     #

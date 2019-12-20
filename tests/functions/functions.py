@@ -169,3 +169,25 @@ def check_web_item(browser):
             (By.XPATH, "//h2[@class='title overflow-ellipsis']")))
     elem = browser.find_element_by_xpath("//h2[@class='title overflow-ellipsis']")
     return elem
+
+
+def return_web_items(browser):
+    # web check
+    my_maps = FirstPage(browser)
+    my_maps.load()
+    my_maps.my_maps()
+
+    login = LoginPage(browser)
+    login.sign_in()
+
+    my_maps = FirstPage(browser)
+    my_maps.load()
+    my_maps.my_maps()
+
+    my_maps = MyMapsPage(browser)
+
+    elem = WebDriverWait(browser, 10).until(
+        EC.presence_of_element_located(
+            (By.XPATH, "//h2[@class='title overflow-ellipsis']")))
+    elems = browser.find_elements_by_xpath("//h2[@class='title overflow-ellipsis']")
+    return elems

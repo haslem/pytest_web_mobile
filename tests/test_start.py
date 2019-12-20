@@ -22,6 +22,7 @@ def mobile(desired_cap):
     desired_cap = desired_cap
 
     driver = webdriver.Remote("http://localhost:4723/wd/hub", desired_cap)
+    #driver = webdriver.Remote("http://localhost:4000/wd/hub", desired_cap)
     driver.implicitly_wait(10)
     yield driver
     driver.quit()
@@ -63,6 +64,8 @@ def browser(config):
 #     mobile_web.test_mobile_web_folder_sync(browser, mobile)
 
 
+
+# #Start
 # def test_folder_sync(browser, mobile):
 #     test_web_mobile.test_folder_sync(browser, mobile)
 #
@@ -89,7 +92,7 @@ def browser(config):
 # #
 # def test_coor_changed_name(browser, mobile):
 #     test_web_mobile.test_coor_changed_name(browser, mobile)
-#
+
 # def test_coor_changed_name_rename(browser, mobile):
 #     test_web_mobile.test_coor_changed_name_rename(browser, mobile)
 #
@@ -134,17 +137,17 @@ def browser(config):
 #
 # def test_create_folder_and_items(browser, mobile):
 #     test_web_mobile.test_create_folder_and_items(browser, mobile)
-
-
-
-
-##!mobile web
+#
+#
+#
+#
+# ##!mobile web
 # def test_mobile_folder_sync(browser, mobile):
 #     test_mobile_web.test_mobile_web_folder_sync(browser, mobile)
-
-def test_mobile_poi_changed_name(browser, mobile):
-    test_mobile_web.test_mobile_poi_changed_name(browser, mobile)
-
+#
+# def test_mobile_poi_changed_name(browser, mobile):
+#     test_mobile_web.test_mobile_poi_changed_name(browser, mobile)
+#
 # def test_mobile_base_poi(browser, mobile):
 #     test_mobile_web.test_mobile_base_poi(browser, mobile)
 #
@@ -162,3 +165,46 @@ def test_mobile_poi_changed_name(browser, mobile):
 #
 # def test_mobile_muni_poi(browser, mobile):
 #     test_mobile_web.test_mobile_muni_poi(browser, mobile)
+
+# def test_mobile_coor_changed_name(browser, mobile):
+#     test_mobile_web.test_mobile_coor_changed_name(browser, mobile)
+#     # for i in range(100000000):
+#     #     pass
+#
+#
+# def test_mobile_coor_changed_name_rename(browser, mobile):
+#     test_mobile_web.test_mobile_coor_changed_name_rename(browser, mobile)
+
+def test_mobile_planning1(browser, mobile):
+    test_mobile_web.test_mobile_planning1(browser, mobile)
+
+def test_mobile_planning2(browser, mobile):
+    test_mobile_web.test_mobile_planning2(browser, mobile)
+
+
+def test_mobile_planning3(browser, mobile):
+    test_mobile_web.test_mobile_planning3(browser, mobile)
+
+
+def test_mobile_planning4(browser, mobile):
+    test_mobile_web.test_mobile_planning4(browser, mobile)
+
+def test_mobile_planning5(browser, mobile):
+    test_mobile_web.test_mobile_planning5(browser, mobile)
+
+def test_mobile_planning6(browser, mobile):
+    pass
+
+def test_mobile_planning7(browser, mobile):
+    test_mobile_web.test_mobile_planning7(browser, mobile)
+
+
+def test_mobile_trip_foot(browser, mobile):
+    test_mobile_web.test_mobile_trip_foot(browser, mobile)
+
+def test_mobile_trip_bike_distance(browser, mobile):
+    test_mobile_web.test_mobile_trip_bike_distance(browser, mobile)
+
+
+def test_mobile_reorder(browser, mobile):
+    test_mobile_web.test_mobile_reorder(browser, mobile)

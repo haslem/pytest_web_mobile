@@ -59,7 +59,7 @@ class PlanningPage(object):
     def end(self):
         elem = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.XPATH, "//input[@aria-label='End']")))
-        elem.send_keys('Milan')
+        elem.send_keys('Genoa')
         elem.send_keys(u'\ue007')
 
 

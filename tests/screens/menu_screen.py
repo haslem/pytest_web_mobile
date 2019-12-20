@@ -31,3 +31,17 @@ class MenuScreen(object):
             if i.get_attribute('text') == 'Places and routes':
                 i.click()
                 break
+
+    def route_planning(self):
+        elements = self.mobile.find_elements_by_class_name('android.widget.Button')
+        for i in elements:
+            if i.get_attribute('text') == 'Route planning':
+                i.click()
+                break
+
+    def trips(self):
+        elements = self.mobile.find_elements_by_class_name('android.widget.Button')
+        for i in elements:
+            if i.get_attribute('text') == 'Trips nearby':
+                i.click()
+                break

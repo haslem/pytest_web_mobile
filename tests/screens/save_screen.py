@@ -15,6 +15,10 @@ class SaveScreen(object):
         elem.send_keys(u'\ue003')
         elem.send_keys(new_name)
 
+    def get_name(self):
+        elem = self.mobile.find_element_by_id('cz.seznam.mapy:id/titleInput')
+        return elem.get_attribute('text')
+
 
 
     def save(self):

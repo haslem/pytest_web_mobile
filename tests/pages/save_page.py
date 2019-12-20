@@ -3,12 +3,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 class SavePage(object):
-    def __init__(self, mobile):
-        self.mobile = mobile
+    def __init__(self, browser):
+        self.browser = browser
 
 
     def change_name(self, new_name):
-        elem = self.mobile.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/input')
+        elem = self.browser.find_element(By.XPATH, '/html/body/div[2]/div/div[1]/input')
 
         for i in range(80):
             elem.send_keys(u'\ue003')
@@ -19,8 +19,13 @@ class SavePage(object):
         elem = self.browser.find_element(By.XPATH, f"//span[text()='{name}']").click()
 
     def save(self):
-        elem = WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div[4]/button[1]')))
-        elem = self.browser.find_element_by_xpath('/html/body/div[2]/div/div[4]/button[1]').click()
+        try:
+            elem = WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.XPATH, "//button[text()='Save']")))
+            elem = self.browser.find_element_by_xpath("//button[text()='Save']").click()
 
+        except:
+            elem = WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.XPATH, '/html/body/div[2]/div/div[4]/button[1]')))
+            elem = self.browser.find_element_by_xpath('/html/body/div[2]/div/div[4]/button[1]').click()
 

@@ -1,5 +1,6 @@
 from appium import webdriver
 
+
 from screens.main_screen import MainScreen
 from screens.menu_screen import MenuScreen
 from screens.login_screen import LogInScreen
@@ -7,6 +8,9 @@ from screens.my_maps_screen import MyMapsScreen
 from screens.search_screen import SearchScreen
 from screens.poidetail_screen import PoidetailScreen
 from screens.save_screen import SaveScreen
+from screens.route_screen import RouteScreen
+from screens.options_screen import OptionsScreen
+from screens.trip_screen import TripScreen
 
 import json
 import pytest
@@ -94,7 +98,9 @@ def test_mobile_poi_changed_name(browser, mobile):
     search.search(SEARCH)
 
     poidetail = PoidetailScreen(mobile)
-    #poidetail.scroll()
+    poidetail.scroll_right()
+    poidetail.scroll_left()
+    #poidetail.trip()
     poidetail.save()
 
     save_page = SaveScreen(mobile)
@@ -146,6 +152,9 @@ def test_mobile_base_poi(browser, mobile):
     elem = functions.check_web_item(browser)
     assert elem.text == SEARCH
 
+    # #delete poi
+    functions.delete_poi(mobile)
+
 
 
 def test_mobile_firm_poi(browser, mobile):
@@ -173,7 +182,8 @@ def test_mobile_firm_poi(browser, mobile):
 
     elem = functions.check_web_item(browser)
     assert elem.text == SEARCH
-
+    # #delete poi
+    functions.delete_poi(mobile)
 
 
 def test_mobile_pubt_poi(browser, mobile):
@@ -200,8 +210,9 @@ def test_mobile_pubt_poi(browser, mobile):
     menu.places_and_routes()
 
     elem = functions.check_web_item(browser)
-    assert elem.text == SEARCH
-
+    assert elem.text == 'Zborovská'
+    # #delete poi
+    functions.delete_poi(mobile)
 
 def test_mobile_osm_poi(browser, mobile):
 
@@ -227,11 +238,12 @@ def test_mobile_osm_poi(browser, mobile):
 
     elem = functions.check_web_item(browser)
     assert elem.text == SEARCH
-
+    # #delete poi
+    functions.delete_poi(mobile)
 
 def test_mobile_country_poi(browser, mobile):
 
-    SEARCH: str = 'Polsko'
+    SEARCH: str = 'Poland'
     search_screen = MainScreen(mobile)
     search_screen.search_click()
     search = SearchScreen(mobile)
@@ -253,7 +265,8 @@ def test_mobile_country_poi(browser, mobile):
 
     elem = functions.check_web_item(browser)
     assert elem.text == SEARCH
-
+    # #delete poi
+    functions.delete_poi(mobile)
 
 
 def test_mobile_muni_poi(browser, mobile):
@@ -281,52 +294,448 @@ def test_mobile_muni_poi(browser, mobile):
     elem = functions.check_web_item(browser)
     assert elem.text == SEARCH
 
+    # #delete poi
+    functions.delete_poi(mobile)
+
+def test_mobile_coor_changed_name(browser, mobile):
+
+    search_screen = MainScreen(mobile)
+    search_screen.coor()
+    #search_screen.zoom_in()
+    #earch_screen.zoom_out()
 
 
-def test_coor_changed_name(browser, mobile):
+    poidetail = PoidetailScreen(mobile)
+    poidetail.save()
 
-    functions.login(browser)
-
-    coor = FirstPage(browser)
-    coor.load()
-    coor.coor()
-
-    poi = SearchPage(browser)
-    poi.save_exact_match()
-
-    save_page = SavePage(browser)
+    save_page = SaveScreen(mobile)
+    #save_page.rename("New name")
     save_page.save()
 
-    #mobile check
-    # mobile
-    elem = functions.check_mobile_item(mobile)
-    assert elem.get_attribute('text') == 'Position on the map'
+    poidetail = PoidetailScreen(mobile)
+    poidetail.close1()
 
-    # delete folder on web
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
 
+
+
+    elem = functions.check_web_item(browser)
+    assert elem.text == "Position on the map"
+
+    # #delete poi
     functions.delete_poi(mobile)
 
 
-def test_coor_changed_name_rename(browser, mobile):
 
-    functions.login(browser)
+def test_mobile_coor_changed_name_rename(browser, mobile):
+    search_screen = MainScreen(mobile)
+    search_screen.coor()
+    #search_screen.zoom_in()
+    #earch_screen.zoom_out()
 
-    coor = FirstPage(browser)
-    coor.load()
-    coor.coor()
 
-    poi = SearchPage(browser)
-    poi.save_exact_match()
+    poidetail = PoidetailScreen(mobile)
+    poidetail.save()
 
-    save_page = SavePage(browser)
-    save_page.change_name('Coor s vlastním názvem')
+    save_page = SaveScreen(mobile)
+    save_page.rename("New name coor")
     save_page.save()
 
-    #mobile check
-    # mobile
-    elem = functions.check_mobile_item(mobile)
-    assert elem.get_attribute('text') == 'Coor s vlastním názvem'
+    poidetail = PoidetailScreen(mobile)
+    poidetail.close1()
 
-    # delete folder on web
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
 
+
+
+    elem = functions.check_web_item(browser)
+    assert elem.text == "New name coor"
+
+    # #delete poi
     functions.delete_poi(mobile)
+
+
+def test_mobile_planning1(browser, mobile):
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.route_planning()
+    planning = RouteScreen(mobile)
+    planning.start("Prague")
+    planning.end("Genoa")
+    for i in range(100000000):
+        pass
+    planning.save()
+
+    save_page = SaveScreen(mobile)
+    #save_page.rename("New name")
+    save_page.save()
+
+    poidetail = PoidetailScreen(mobile)
+    poidetail.close1()
+
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
+
+
+
+    elem = functions.check_web_item(browser)
+    assert elem.text == "Route from Prague to Genoa"
+
+    # #delete poi
+    functions.delete_poi(mobile)
+
+
+
+
+def test_mobile_planning2(browser, mobile):
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.route_planning()
+    planning = RouteScreen(mobile)
+    planning.start("Prague")
+    planning.end("Genoa")
+    for i in range(200000000):
+        pass
+    planning.options()
+
+    options = OptionsScreen(mobile)
+    options.avoid_cr()
+    mobile.back()
+    for i in range(100000000):
+        pass
+
+    planning = RouteScreen(mobile)
+
+    planning.save()
+
+    save_page = SaveScreen(mobile)
+    save_page.rename("Route avoid cr")
+    save_page.save()
+
+    poidetail = PoidetailScreen(mobile)
+    poidetail.close1()
+
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
+
+    elem = functions.check_web_item(browser)
+    assert elem.text == "Route avoid cr"
+
+    # #delete poi
+    functions.delete_poi(mobile)
+
+
+def test_mobile_planning3(browser, mobile):
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.route_planning()
+    planning = RouteScreen(mobile)
+    planning.start("Prague")
+    planning.end("Genoa")
+    for i in range(200000000):
+        pass
+    planning.options()
+
+    options = OptionsScreen(mobile)
+    options.avoid_sw()
+    mobile.back()
+    for i in range(100000000):
+        pass
+
+    planning = RouteScreen(mobile)
+
+    planning.save()
+
+    save_page = SaveScreen(mobile)
+    save_page.rename("Route avoid switzerland")
+    save_page.save()
+
+    poidetail = PoidetailScreen(mobile)
+    poidetail.close1()
+
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
+
+    elem = functions.check_web_item(browser)
+    assert elem.text == "Route avoid switzerland"
+
+    # #delete poi
+    functions.delete_poi(mobile)
+
+
+def test_mobile_planning4(browser, mobile):
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.route_planning()
+    planning = RouteScreen(mobile)
+    planning.start("Prague")
+    planning.end("Genoa")
+    for i in range(200000000):
+        pass
+    planning.options()
+
+    options = OptionsScreen(mobile)
+    options.auto_avoid()
+    options.auto_short()
+    mobile.back()
+    for i in range(100000000):
+        pass
+
+    planning = RouteScreen(mobile)
+
+    planning.save()
+
+    save_page = SaveScreen(mobile)
+    save_page.rename("Route avoid pay short")
+    save_page.save()
+
+    poidetail = PoidetailScreen(mobile)
+    poidetail.close1()
+
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
+
+    elem = functions.check_web_item(browser)
+    assert elem.text == "Route avoid pay short"
+
+    # #delete poi
+    functions.delete_poi(mobile)
+
+
+def test_mobile_planning5(browser, mobile):
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.route_planning()
+    planning = RouteScreen(mobile)
+    planning.bike()
+    planning.start("Prague")
+    planning.end("Genoa")
+
+    for i in range(100000000):
+        pass
+
+    planning = RouteScreen(mobile)
+
+    planning.save()
+
+    save_page = SaveScreen(mobile)
+    save_page.rename("Bike route")
+    save_page.save()
+
+    poidetail = PoidetailScreen(mobile)
+    poidetail.close1()
+
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
+
+    elem = functions.check_web_item(browser)
+    assert elem.text == "Bike route"
+
+    # #delete poi
+    functions.delete_poi(mobile)
+
+
+def test_mobile_planning6(browser, mobile):
+    #for boat
+    pass
+
+
+def test_mobile_planning7(browser, mobile):
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.route_planning()
+    planning = RouteScreen(mobile)
+    planning.foot()
+    planning.options()
+    options = OptionsScreen(mobile)
+    options.foot_short()
+    mobile.back()
+    planning.start("Prague")
+    planning.end("Genoa")
+
+    for i in range(100000000):
+        pass
+
+    planning = RouteScreen(mobile)
+
+    planning.save()
+
+    save_page = SaveScreen(mobile)
+    save_page.rename("Foot route")
+    save_page.save()
+
+    poidetail = PoidetailScreen(mobile)
+    poidetail.close1()
+
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
+
+    elem = functions.check_web_item(browser)
+    assert elem.text == "Foot route"
+
+    # #delete poi
+    functions.delete_poi(mobile)
+
+
+
+def test_mobile_trip_foot(browser, mobile):
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.trips()
+
+    for i in range(100000000):
+        pass
+
+    trip = TripScreen(mobile)
+    # trip.change_distance()
+    # for i in range(100000000):
+    #     pass
+
+    trip.save()
+    save_page = SaveScreen(mobile)
+    name = save_page.get_name()
+    #save_page.rename("Foot trip")
+    save_page.save()
+
+    poidetail = PoidetailScreen(mobile)
+    poidetail.close1()
+    poidetail.close1()
+
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
+
+    elem = functions.check_web_item(browser)
+    assert elem.text == name
+
+    # #delete poi
+    functions.delete_poi(mobile)
+
+
+def test_mobile_trip_bike_distance(browser, mobile):
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.trips()
+
+    for i in range(100000000):
+        pass
+
+    trip = TripScreen(mobile)
+    trip.bike()
+    for i in range(100000000):
+        pass
+    trip.change_distance()
+    for i in range(100000000):
+        pass
+
+    trip.save()
+    save_page = SaveScreen(mobile)
+    name = save_page.get_name()
+    #save_page.rename("Bike change distance")
+    save_page.save()
+
+    poidetail = PoidetailScreen(mobile)
+    poidetail.close1()
+    poidetail.close1()
+
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
+
+    elem = functions.check_web_item(browser)
+    assert elem.text == name
+
+    # #delete poi
+    functions.delete_poi(mobile)
+
+
+def test_mobile_reorder(browser, mobile):
+
+    countries = ['Poland', 'Sweden']
+    for SEARCH in countries:
+        search_screen = MainScreen(mobile)
+        search_screen.search_click()
+        search = SearchScreen(mobile)
+        search.search(SEARCH)
+
+        poidetail = PoidetailScreen(mobile)
+        poidetail.save()
+
+        save_page = SaveScreen(mobile)
+        save_page.save()
+
+        poidetail = PoidetailScreen(mobile)
+        poidetail.close()
+
+
+    main_screen = MainScreen(mobile)
+    main_screen.menu_click()
+    menu = MenuScreen(mobile)
+    menu.places_and_routes()
+
+    my_maps = MyMapsScreen(mobile)
+    order = my_maps.order_2_items()
+
+
+    elems = functions.return_web_items(browser)
+    web_order = []
+    for i in elems:
+        web_order.append(i.text)
+
+    print(order)
+    print(web_order)
+
+    assert order == web_order
+
+    my_maps.reoder_2_items()
+
+
+    # # #delete poi
+    # functions.delete_poi(mobile)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
